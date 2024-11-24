@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,32 +33,41 @@
     <div class="counter">
         アクセス数: <span id="visitCount">Loading...</span>
     </div>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    <script type="module">
+        // Firebase モジュールの読み込み
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA-iqN9YM3dpC9fJgvTLDsNqXGrF0olvOA",
-    authDomain: "qw-aad88.firebaseapp.com",
-    projectId: "qw-aad88",
-    storageBucket: "qw-aad88.firebasestorage.app",
-    messagingSenderId: "16950394997",
-    appId: "1:16950394997:web:9ca4bfb7bbbfba882f383c",
-    measurementId: "G-FJE32JJJRS"
-  };
+        // Firebase 設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyA-iqN9YM3dpC9fJgvTLDsNqXGrF0olvOA",
+            authDomain: "qw-aad88.firebaseapp.com",
+            databaseURL: "https://qw-aad88-default-rtdb.firebaseio.com", // Database URL
+            projectId: "qw-aad88",
+            storageBucket: "qw-aad88.appspot.com",
+            messagingSenderId: "16950394997",
+            appId: "1:16950394997:web:9ca4bfb7bbbfba882f383c",
+            measurementId: "G-FJE32JJJRS"
+        };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+        // Firebase 初期化
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
+        // Realtime Database の参照
+        const visitCountRef = ref(database, 'visitCount');
+
+        // アクセス数を取得して更新
+        get(visitCountRef).then(snapshot => {
+            let count = snapshot.val() || 0;
+            document.getElementById('visitCount').textContent = count;
+
+            // アクセス数を増加
+            set(visitCountRef, count + 1);
+        }).catch(error => {
+            console.error("アクセス数の取得エラー:", error);
+            document.getElementById('visitCount').textContent = "Error";
+        });
+    </script>
 </body>
 </html>
