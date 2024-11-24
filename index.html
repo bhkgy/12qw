@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,53 +21,10 @@
             max-height: 90%;
             display: block;
         }
-        .counter {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            color: #333;
-        }
     </style>
 </head>
 <body>
+    <!-- ここに表示したい画像を指定してください -->
     <img src="your-image.jpg" alt="表示画像">
-    <div class="counter">
-        アクセス数: <span id="visitCount">Loading...</span>
-    </div>
-    <script type="module">
-        // Firebase モジュールの読み込み
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
-
-        // Firebase 設定
-        const firebaseConfig = {
-            apiKey: "AIzaSyA-iqN9YM3dpC9fJgvTLDsNqXGrF0olvOA",
-            authDomain: "qw-aad88.firebaseapp.com",
-            databaseURL: "https://qw-aad88-default-rtdb.firebaseio.com", // Database URL
-            projectId: "qw-aad88",
-            storageBucket: "qw-aad88.appspot.com",
-            messagingSenderId: "16950394997",
-            appId: "1:16950394997:web:9ca4bfb7bbbfba882f383c",
-            measurementId: "G-FJE32JJJRS"
-        };
-
-        // Firebase 初期化
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        // Realtime Database の参照
-        const visitCountRef = ref(database, 'visitCount');
-
-        // アクセス数を取得して更新
-        get(visitCountRef).then(snapshot => {
-            let count = snapshot.val() || 0;
-            document.getElementById('visitCount').textContent = count;
-
-            // アクセス数を増加
-            set(visitCountRef, count + 1);
-        }).catch(error => {
-            console.error("アクセス数の取得エラー:", error);
-            document.getElementById('visitCount').textContent = "Error";
-        });
-    </script>
 </body>
 </html>
